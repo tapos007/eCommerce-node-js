@@ -1,0 +1,11 @@
+{% for type in Object.keys(messages) %}
+<div class="{{type}}">
+    {% for message in messages[type] %}
+        {{ message }} 
+    {% endfor %}
+</div>
+{% endfor %}
+
+<h1>this is good</h1>
+
+

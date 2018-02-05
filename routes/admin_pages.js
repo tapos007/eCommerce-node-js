@@ -1,6 +1,9 @@
 var express = require('express')
 var router = express.Router()
 
+/**
+ * Get pages index
+ */
 
 // define the home page route
 router.get('/', function (req, res) {
@@ -8,6 +11,19 @@ router.get('/', function (req, res) {
         title:'Admin'
     });
 });
-// define the about route
+/**
+ * Get add page
+ */
+
+router.get('/add-page', function (req, res) {
+    var title ="";
+    var slug = "";
+    var content = "this is our content";
+    res.render('admin/add_page',{
+        title,
+        slug,
+        content
+    });
+});
 
 module.exports = router
