@@ -20,11 +20,17 @@ app.use(express.static('public'))
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log("its open now")
+  console.log("its open now");
 });
 
-app.get('/', (req, res) => res.render('index',{
-    title:'Home'
-}))
+// set routes 
+var pages = require('./routes/pages');
+var adminPages = require('./routes/admin_pages');
+app.use('/',pages);
+app.use('/admin/pages',adminPages);
+
+
+
+
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
