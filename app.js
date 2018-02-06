@@ -4,7 +4,7 @@ const cons = require('consolidate');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const { body,validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 const config = require('./config/database');
 const app = express();
@@ -20,6 +20,9 @@ app.set('views', __dirname + '/views');
 // static files for image , css, javascript
 
 app.use(express.static('public'));
+
+// set global errors variable
+app.locals.errors = null;
 
 // add body parser middleware
 

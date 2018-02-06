@@ -42,4 +42,14 @@
     <div class="container">
 
       {{  messages('messages', locals) }}
-  
+<div class="row" style="margin-top:30px;">
+  <div class="col-md-12">
+      {% if errors %}
+        {% for error in errors %}
+          <div class="alert alert-danger" role="alert"">
+              {{ error.msg }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+</div>
