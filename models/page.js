@@ -19,6 +19,6 @@ var PageSchema = new Schema({
     }
 });
 var Page = mongoose.model('Page', PageSchema);
-module.exports = {
-    Page
-}
+
+// make this available to our users in our Node applications
+module.exports = Page;

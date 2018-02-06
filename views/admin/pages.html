@@ -1,0 +1,32 @@
+{% include "layouts/adminheader.html" %}
+
+<h2 class="page-title">Pages</h2>
+
+<a href="/admin/pages/add-page" class="btn btn-primary">Add a new page</a>
+<br><br>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for page in pages %}
+    <tr>
+    <td>{{page.title}}</td>
+    <td>{{page.slug}}</td>
+    <td><a href="/admin/pages/edit-page/{{page.slug}}" class="btn btn-primary">Edit</a></td>
+    <td><a href="/admin/pages/delete-page/{{page.slug}}" class="btn btn-danger">Delete</a></td>
+    </tr>
+
+    {% else %}
+    <tr><td colspan="3">This would display if the 'item' collection were empty</td></tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+{% include "layouts/adminfooter.html" %}
