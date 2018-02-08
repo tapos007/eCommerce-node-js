@@ -9,7 +9,7 @@
 
 <table class="table table-striped">
     <thead>
-    <tr>
+    <tr class="home">
         <th>Title</th>
         <th>Slug</th>
         <th>Edit</th>
@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     {% for page in pages %}
-    <tr>
+    <tr id="id_{{page._id}}" class="{{page.slug}}">
     <td>{{page.title}}</td>
     <td>{{page.slug}}</td>
     <td><a href="/admin/pages/edit-page/{{page.slug}}" class="btn btn-primary">Edit</a></td>
@@ -31,4 +31,22 @@
 
     </tbody>
 </table>
+{% endblock %}
+
+
+{% block js_block %}
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('tbody').sortable({
+            items:"tr:not('.home')",
+            placeholder:"ui-state-highlight",
+            update:function () {
+                var ids = $('tbody').sortable("serialize");
+                var url = "/admin/pages/reorder-page";
+                $.post(url,ids);
+            }
+        });
+    });
+</script>
 {% endblock %}

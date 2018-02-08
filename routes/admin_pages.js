@@ -3,6 +3,7 @@ var router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 const Page = require('../models/page');
+require('express-async-errors');
 
 /**
  * Get pages index
@@ -10,7 +11,7 @@ const Page = require('../models/page');
 
 // define the home page route
 router.get('/', function (req, res) {
-    Page.find({}).sort({'_id':-1}).exec((err,pages)=>{
+    Page.find({}).sort({'sorting':1}).exec((err,pages)=>{
         res.render('admin/pages',{
             pages:pages
         });
@@ -68,4 +69,29 @@ router.post('/add-page',[
     }
     
 });
-module.exports = router
+
+
+
+/**
+ * Post Reorder Pages
+ */
+
+
+router.post('/reorder-page',async function (req, res) {
+
+    var ids = req.body['id[]'];
+    var count = 0;
+    for (let id of ids) {
+            try {
+                count++;
+                const page = await Page.findById(id);
+                console.log(page);
+                page.sorting = count;
+                 await page.save();
+            } catch (err) {
+                console.log(err);
+            }
+    }
+});
+
+module.exports = router;
