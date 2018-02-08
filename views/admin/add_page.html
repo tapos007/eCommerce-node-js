@@ -1,4 +1,6 @@
-{% include "layouts/adminheader.html" %}
+{% extends "layouts/admin_master.html" %}
+
+{% block main_block %}
 
 <h2 class="page-title">Add a page</h2> 
 
@@ -20,4 +22,4 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
-{% include "layouts/adminfooter.html" %}
+{% endblock %}

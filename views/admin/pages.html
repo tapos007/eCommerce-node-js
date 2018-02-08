@@ -1,4 +1,6 @@
-{% include "layouts/adminheader.html" %}
+{% extends "layouts/admin_master.html" %}
+
+{% block main_block %}
 
 <h2 class="page-title">Pages</h2>
 
@@ -29,4 +31,4 @@
 
     </tbody>
 </table>
-{% include "layouts/adminfooter.html" %}
+{% endblock %}
