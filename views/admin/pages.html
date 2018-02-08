@@ -7,7 +7,7 @@
 <a href="/admin/pages/add-page" class="btn btn-primary">Add a new page</a>
 <br><br>
 
-<table class="table table-striped">
+<table class="table table-striped sorting">
     <thead>
     <tr class="home">
         <th>Title</th>
@@ -49,4 +49,14 @@
         });
     });
 </script>
+{% endblock %}
+
+
+{% block css_block %}
+<style>
+    .sorting tr:not(.home){
+        cursor: pointer;
+    }
+</style>
+
 {% endblock %}
