@@ -1,11 +1,15 @@
+<div class="row" style="margin-top:50px;">
+    <div class="col-md-12">
+        {% for key, value in flash %}
+        <div class="alert alert-{{key}}" role="alert">
+            {% for message in value %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endfor %}
 
-{% for key, value in flash %}
-<div class="alert alert-{{key}}" role="alert">
-    {% for message in value %}
-    {{ message }}
-    {% endfor %}
+    </div>
 </div>
-{% endfor %}
 
 
 

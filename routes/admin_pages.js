@@ -57,7 +57,7 @@ router.post('/add-page',[
                 res.render('admin/add_page', { title,slug,content });
 
             }else{
-                var page = new Page({ title,slug,content,sorting:0 });
+                var page = new Page({ title,slug,content,sorting:100 });
                 page.save(function (err) {
                     if (err) return console.log(err);
                     res.flash('success','Page Added.'); 
@@ -158,6 +158,25 @@ router.post('/update-page',[
             res.redirect(backURL);
         }
 
+    }
+
+});
+
+/**
+ * delete a page
+ */
+
+router.delete('/delete-page/:slug',async function (req, res) {
+
+    try {
+        var slug = req.params.slug;
+        var page = await Page.findOne({slug});
+        if(page){
+           await page.remove();
+           res.json({success:true,message:"page delete successfully"});
+        }
+    }catch(err){
+        res.json({success:false,message:"page delete not success"});
     }
 
 });

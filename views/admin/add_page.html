@@ -17,9 +17,22 @@
       <input type="text" class="form-control" value="{{slug}}" name="slug" placeholder="Slug">
     </div>
     <div class="form-group">
-      <label for="conent">Content</label>
-      <textarea type="text" class="form-control"  name="content" placeholder="Content" rows="10">{{content}}</textarea>
+      <label for="content">Content</label>
+      <textarea type="text" class="form-control" id="content" name="content" placeholder="Content" rows="10">{{content}}</textarea>
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 {% endblock %}
+
+
+{% block js_block %}
+<script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+<script>
+    $(document).ready(function(){
+        CKEDITOR.replace( 'content' );
+    });
+</script>
+{% endblock %}
+
+
+

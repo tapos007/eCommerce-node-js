@@ -2,9 +2,9 @@
 
 {% block main_block %}
 
-<h2 class="page-title">Pages</h2>
+<h2 class="page-title">Category</h2>
 
-<a href="/admin/pages/add-page" class="btn btn-primary">Add a new page</a>
+<a href="/admin/category/add-category" class="btn btn-primary">Add a new category</a>
 <br><br>
 
 <table class="table table-striped sorting">
@@ -17,12 +17,12 @@
     </tr>
     </thead>
     <tbody>
-    {% for page in pages %}
-    <tr id="id_{{page._id}}" class="{{page.slug}}">
-    <td>{{page.title}}</td>
-    <td>{{page.slug}}</td>
-    <td><a href="/admin/pages/edit-page/{{page.slug}}" class="btn btn-primary">Edit</a></td>
-    <td><a href="/admin/pages/delete-page/{{page.slug}}"   class="btn btn-danger deletebutton">Delete</a></td>
+    {% for category in categories %}
+    <tr id="id_{{category._id}}" class="{{category.slug}}">
+    <td>{{category.title}}</td>
+    <td>{{category.slug}}</td>
+    <td><a href="/admin/category/edit-category/{{category.slug}}" class="btn btn-primary">Edit</a></td>
+    <td><a href="/admin/category/delete-category/{{category.slug}}"   class="btn btn-danger deletebutton">Delete</a></td>
     </tr>
 
     {% else %}
@@ -39,15 +39,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <script>
     $(document).ready(function(){
-        $('tbody').sortable({
-            items:"tr:not('.home')",
-            placeholder:"ui-state-highlight",
-            update:function () {
-                var ids = $('tbody').sortable("serialize");
-                var url = "/admin/pages/reorder-page";
-                $.post(url,ids);
-            }
-        });
+
 
         $(".deletebutton").on('click',function (e) {
             e.preventDefault();
@@ -55,7 +47,7 @@
             var thisButton = $(this);
             $.confirm({
                 title: 'Confirm!',
-                content: 'Are you sure to delete this page!',
+                content: 'Are you sure to delete this category!',
                 buttons: {
                     confirm: function () {
                         $.ajax({

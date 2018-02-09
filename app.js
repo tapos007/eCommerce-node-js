@@ -39,7 +39,7 @@ app.use(bodyParser.json());
 app.use(cookieParser('keyboard cat'));
 app.use(session({
   secret: 'keyboard cat',
-  resave: false,
+  resave: true,
   saveUninitialized: true
 }));
 app.use(flash());
@@ -57,8 +57,10 @@ db.once('open', function() {
 // set routes 
 var pages = require('./routes/pages');
 var adminPages = require('./routes/admin_pages');
+var adminCategories = require('./routes/admin_categories');
 app.use('/',pages);
 app.use('/admin/pages',adminPages);
+app.use('/admin/category',adminCategories);
 
 
 
