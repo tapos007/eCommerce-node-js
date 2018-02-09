@@ -1,11 +1,13 @@
-{% for type in Object.keys(messages) %}
-<div class="{{type}}">
-    {% for message in messages[type] %}
-        {{ message }} 
+
+{% for key, value in flash %}
+<div class="alert alert-{{key}}" role="alert">
+    {% for message in value %}
+    {{ message }}
     {% endfor %}
 </div>
 {% endfor %}
 
-<h1>this is good</h1>
+
+
 
 

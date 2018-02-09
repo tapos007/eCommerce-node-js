@@ -1,8 +1,10 @@
-const express = require('express')
+const express = require('express');
 const path = require('path');
 const cons = require('consolidate');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const flash = require('express-flash-2');
 const session = require('express-session');
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
@@ -22,7 +24,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static('public'));
 
 // set global errors variable
-app.locals.errors = null;
+//app.locals.errors = null;
 
 // add body parser middleware
 
@@ -33,21 +35,17 @@ app.use(bodyParser.json());
 
 // end add body parser middleware
 
-// add session 
+// add session
+app.use(cookieParser('keyboard cat'));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  saveUninitialized: true
 }));
+app.use(flash());
 
 // end session
-// message
-app.use(require('connect-flash')());
-app.use(function (req, res, next) {
-  res.locals.messages = require('express-messages')(req, res);
-  next();
-});
+
 //
 
 var db = mongoose.connection;
