@@ -17,13 +17,17 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "express-async-errors": "^2.1.0",
+    "express-fileupload": "^0.4.0",
     "express-flash": "^0.0.2",
     "express-flash-2": "^1.0.1",
     "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
     "express-validator": "^4.3.0",
+    "fs-extra": "^5.0.0",
     "jquery": "^3.3.1",
+    "mkdirp": "^0.5.1",
     "mongoose": "^5.0.3",
-    "nunjucks": "^3.0.1"
+    "nunjucks": "^3.0.1",
+    "resize-img": "^1.1.2"
   }
 }

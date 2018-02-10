@@ -3,7 +3,6 @@ var router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 const CategoryController = require('../controllers/categoryController');
-require('express-async-errors');
 
 // show all categories
 router.get('/', CategoryController.getAllCategory);
