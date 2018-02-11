@@ -9,6 +9,9 @@ const session = require('express-session');
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 const config = require('./config/database');
+const fileUpload = require('express-fileupload');
+const fs = require('fs-extra');
+const mkdirp = require('mkdirp');
 const app = express();
 // connect with mongo db
 mongoose.connect(config.database);
@@ -24,7 +27,11 @@ app.set('views', __dirname + '/views');
 app.use(express.static('public'));
 
 // set global errors variable
-//app.locals.errors = null;
+app.locals.errors = null;
+
+// add express-fileupload middleware
+app.use(fileUpload());
+
 
 // add body parser middleware
 
@@ -58,9 +65,11 @@ db.once('open', function() {
 var pages = require('./routes/pages');
 var adminPages = require('./routes/admin_pages');
 var adminCategories = require('./routes/admin_categories');
+var adminProduct = require('./routes/admin_products');
 app.use('/',pages);
 app.use('/admin/pages',adminPages);
 app.use('/admin/category',adminCategories);
+app.use('/admin/products',adminProduct);
 
 
 

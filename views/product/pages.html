@@ -1,0 +1,87 @@
+{% extends "layouts/admin_master.html" %}
+
+{% block main_block %}
+
+<h2 class="page-title">Category</h2>
+
+<a href="/admin/category/add-category" class="btn btn-primary">Add a new category</a>
+<br><br>
+
+<table class="table table-striped sorting">
+    <thead>
+    <tr class="home">
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for category in categories %}
+    <tr id="id_{{category._id}}" class="{{category.slug}}">
+    <td>{{category.title}}</td>
+    <td>{{category.slug}}</td>
+    <td><a href="/admin/category/edit-category/{{category.slug}}" class="btn btn-primary">Edit</a></td>
+    <td><a href="/admin/category/delete-category/{{category.slug}}"   class="btn btn-danger deletebutton">Delete</a></td>
+    </tr>
+
+    {% else %}
+    <tr><td colspan="3">This would display if the 'item' collection were empty</td></tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+{% endblock %}
+
+
+{% block js_block %}
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+
+        $(".deletebutton").on('click',function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            var thisButton = $(this);
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Are you sure to delete this category!',
+                buttons: {
+                    confirm: function () {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            success: function(result) {
+                                if(result.success){
+                                    alert(result.message);
+                                    $(thisButton).closest('tr').hide();
+                                }
+                            }
+                        });
+
+                    },
+                    cancel: function () {
+
+                    }
+                }
+            });
+
+        });
+    });
+</script>
+{% endblock %}
+
+
+{% block css_block %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<style>
+
+    .sorting tr:not(.home){
+        cursor: pointer;
+    }
+</style>
+
+{% endblock %}
+

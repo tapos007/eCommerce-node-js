@@ -1,0 +1,27 @@
+{% extends "layouts/admin_master.html" %}
+
+{% block main_block %}
+
+<h2 class="page-title">Add a new Category</h2>
+
+<a href="/admin/category" class="btn btn-primary">Back to all categories</a>
+<br><br>
+
+<form method="post" action="/admin/category/add-category">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" value="{{title}}" name="title" placeholder="Title">
+    </div>
+    <div class="form-group">
+      <label for="slug">Slug</label>
+      <input type="text" class="form-control" value="{{slug}}" name="slug" placeholder="Slug">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+{% endblock %}
+
+
+
+
+
+

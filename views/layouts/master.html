@@ -44,7 +44,7 @@
 
 <div class="container">
 
-    {{ messages('messages', locals) }}
+    {% include "messages.html" %}
 
     {% block main_block %}{% endblock %}
 </div><!-- /.container -->

@@ -23,11 +23,10 @@ var ProductSchema = new Schema({
         required: true
     },
     image: {
-        type: String,
-        required: true
+        type: String
     }
 });
 var Product = mongoose.model('Product', ProductSchema);
 
 // make this available to our users in our Node applications
-module.exports = Page;
+module.exports = Product;
