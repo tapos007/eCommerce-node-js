@@ -2,35 +2,55 @@
 
 {% block main_block %}
 
-<h2 class="page-title">Category</h2>
+<h2 class="page-title">Product</h2>
 
-<a href="/admin/category/add-category" class="btn btn-primary">Add a new category</a>
+<a href="/admin/products/add-product" class="btn btn-primary">Add a new Product</a>
 <br><br>
+{% if count == 0 %}
+<div class="alert alert-danger">
+    no product found
+</div>
 
-<table class="table table-striped sorting">
+{% else %}
+
+<table class="table table-striped">
     <thead>
     <tr class="home">
-        <th>Title</th>
-        <th>Slug</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Product Image</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
     </thead>
     <tbody>
-    {% for category in categories %}
-    <tr id="id_{{category._id}}" class="{{category.slug}}">
-    <td>{{category.title}}</td>
-    <td>{{category.slug}}</td>
-    <td><a href="/admin/category/edit-category/{{category.slug}}" class="btn btn-primary">Edit</a></td>
-    <td><a href="/admin/category/delete-category/{{category.slug}}"   class="btn btn-danger deletebutton">Delete</a></td>
+    {% for product in products %}
+    <tr>
+        <td>{{product.title}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.category}}</td>
+        <td>
+            {% if product.image == "" %}
+            <img src="/images/noimage.png" alt="">
+            {% else %}
+            <img src="/product_images/{{product.image}}" alt="">
+            {% endif %}
+        </td>
+        <td><a href="/admin/products/edit-product/{{product.slug}}" class="btn btn-primary">Edit</a></td>
+        <td><a href="/admin/products/delete-product/{{product.slug}}" class="btn btn-danger deletebutton">Delete</a>
+        </td>
     </tr>
 
     {% else %}
-    <tr><td colspan="3">This would display if the 'item' collection were empty</td></tr>
+    <tr>
+        <td colspan="3">This would display if the 'item' collection were empty</td>
+    </tr>
     {% endfor %}
 
     </tbody>
 </table>
+{% endif %}
 {% endblock %}
 
 
@@ -38,23 +58,23 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
 
 
-        $(".deletebutton").on('click',function (e) {
+        $(".deletebutton").on('click', function (e) {
             e.preventDefault();
             var url = $(this).attr('href');
             var thisButton = $(this);
             $.confirm({
                 title: 'Confirm!',
-                content: 'Are you sure to delete this category!',
+                content: 'Are you sure to delete this product!',
                 buttons: {
                     confirm: function () {
                         $.ajax({
                             url: url,
                             type: 'DELETE',
-                            success: function(result) {
-                                if(result.success){
+                            success: function (result) {
+                                if (result.success) {
                                     alert(result.message);
                                     $(thisButton).closest('tr').hide();
                                 }
@@ -78,7 +98,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 <style>
 
-    .sorting tr:not(.home){
+    .sorting tr:not(.home) {
         cursor: pointer;
     }
 </style>

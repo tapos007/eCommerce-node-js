@@ -2,25 +2,80 @@
 
 {% block main_block %}
 
-<h2 class="page-title">Add a new Category</h2>
+<h2 class="page-title">Add a new Product</h2>
 
-<a href="/admin/category" class="btn btn-primary">Back to all categories</a>
+<a href="/admin/products" class="btn btn-primary">Back to all products</a>
 <br><br>
 
-<form method="post" action="/admin/category/add-category">
+<form method="post" action="/admin/products/add-product" enctype="multipart/form-data">
     <div class="form-group">
       <label for="title">Title</label>
       <input type="text" class="form-control" value="{{title}}" name="title" placeholder="Title">
     </div>
     <div class="form-group">
-      <label for="slug">Slug</label>
-      <input type="text" class="form-control" value="{{slug}}" name="slug" placeholder="Slug">
+        <label for="price">Price</label>
+        <input type="text" class="form-control" value="{{price}}" name="price" placeholder="Price">
     </div>
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" name="category">
+            <option value="">select a category</option>
+            {% for item in categories %}
+            <option value="{{item.slug}}">{{item.title}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="image">Image</label>
+        <input type="file" class="form-control" height="100" width="100" id="image" name="image">
+        <img src="#" alt="" id="imgPreview">
+    </div>
+    <div class="form-group">
+        <label for="desc">Description</label>
+        <textarea type="text" class="form-control" id="desc" name="desc" placeholder="Content" rows="10">{{desc}}</textarea>
+    </div>
+
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 {% endblock %}
 
 
+{% block js_block %}
+<script src="//cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#imgPreview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).ready(function(){
+        CKEDITOR.replace( 'desc' );
+
+
+
+        $("#image").change(function () {
+            readURL(this);
+        });
+    });
+</script>
+{% endblock %}
+
+{% block css_block %}
+<style>
+    #imgPreview {
+        width: 100px;
+        height: 100px;
+        margin-top: 20px;
+    }
+</style>
+
+{% endblock %}
 
 
 

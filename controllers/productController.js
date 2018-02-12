@@ -1,6 +1,7 @@
 const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const Product = require('../models/product');
+const Category = require('../models/category');
 const fs = require('fs-extra');
 const mkdirp = require('mkdirp');
 const resizeImg = require('resize-img');
@@ -8,19 +9,37 @@ require('express-async-errors');
 
 module.exports = {
     getAllProduct: async (req, res) => {
-        Product.find({}).exec((err, categories) => {
-            res.render('category/pages', {
-                categories
-            });
-        });
+
+        // var count = await
+        // var products = await Product.find({});
+        // Product.find({}).exec((err, products) => {
+        //     res.render('product/pages', {
+        //         products
+        //     });
+        // });
+        try {
+            const [count, products] = await Promise.all([
+                Product.count(),
+                Product.find({})
+
+            ]);
+            res.render('product/pages', {count,products});
+
+        } catch (err) {
+            console.log("some error");
+        }
     },
 
     productCreateGet: async (req, res) => {
         var title = "";
-        var slug = "";
+        var desc = "";
+        var price = "";
+        var categories = await Category.find({});
         res.render('product/add_page', {
             title,
-            slug
+            desc,
+            price,
+            categories
         });
     },
 
