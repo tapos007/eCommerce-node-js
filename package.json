@@ -28,6 +28,7 @@
     "mkdirp": "^0.5.1",
     "mongoose": "^5.0.3",
     "nunjucks": "^3.0.1",
-    "resize-img": "^1.1.2"
+    "resize-img": "^1.1.2",
+    "uniqid": "^4.1.1"
   }
 }

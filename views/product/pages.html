@@ -34,7 +34,7 @@
             {% if product.image == "" %}
             <img src="/images/noimage.png" alt="">
             {% else %}
-            <img src="/product_images/{{product.image}}" alt="">
+            <img src="/product_images/{{product.image}}" alt="" height="100" width="100">
             {% endif %}
         </td>
         <td><a href="/admin/products/edit-product/{{product.slug}}" class="btn btn-primary">Edit</a></td>

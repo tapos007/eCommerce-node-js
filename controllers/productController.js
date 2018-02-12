@@ -5,18 +5,12 @@ const Category = require('../models/category');
 const fs = require('fs-extra');
 const mkdirp = require('mkdirp');
 const resizeImg = require('resize-img');
+var uniqid = require('uniqid');
 require('express-async-errors');
 
 module.exports = {
     getAllProduct: async (req, res) => {
 
-        // var count = await
-        // var products = await Product.find({});
-        // Product.find({}).exec((err, products) => {
-        //     res.render('product/pages', {
-        //         products
-        //     });
-        // });
         try {
             const [count, products] = await Promise.all([
                 Product.count(),
@@ -45,30 +39,41 @@ module.exports = {
 
     productCreatePost: async (req, res) => {
 
-        let {title} = req.body;
-        let slug = req.body.slug.replace(/\s+/g, '-').toLowerCase();
-        if (slug == "") slug = title.replace(/\s+/g, '-').toLowerCase();
+        let {title,desc,price,category} = req.body;
+        let slug = title.replace(/\s+/g,'-').toLowerCase();
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            var categories = await Category.find({});
             res.render('product/add_page', {
-                title, slug, errors: errors.array()
+                title,desc,price,slug,category,categories,  errors: errors.array()
             });
         } else {
             Product.findOne({'slug': slug}, (err, page) => {
                 if (page) {
-                    res.flash('danger', 'Product slug exits , choolse another.');
-                    res.render('product/add_page', {title, slug});
+                    res.flash('danger', 'Product tilte exits , choose another.');
+                    res.render('product/add_page', {title,desc,price,slug,category,categories});
 
                 } else {
-                    var product = new Product({title, slug});
-                    product.save(function (err) {
-                            if (err) return console.log(err);
-                            res.flash('success', 'Product Added.');
-                            res.redirect('/admin/product');
-                        }
-                    );
+                    price = parseFloat(price).toFixed(2);
+                    let sampleFile = req.files.image;
+                    var fileName = uniqid() + ".png";
+                    sampleFile.mv('public/product_images/'+fileName, function(err) {
+                        if (err)
+                            return res.status(500).send(err);
+
+                        var product = new Product({title,desc,price,slug,category,image:fileName});
+                        product.save(function (err) {
+                                if (err) return console.log(err);
+                                res.flash('success', 'Product Added.');
+                                res.redirect('/admin/products');
+                            }
+                        );
+                    });
+
                 }
             });
+
         }
 
     },

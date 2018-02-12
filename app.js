@@ -30,7 +30,9 @@ app.use(express.static('public'));
 app.locals.errors = null;
 
 // add express-fileupload middleware
-app.use(fileUpload());
+app.use(fileUpload({
+   // safeFileNames: true
+}));
 
 
 // add body parser middleware
