@@ -55,4 +55,9 @@ router.post('/update-product', [
 
 router.delete('/delete-product/:slug', ProductController.productDeletePost);
 
+router.post('/file-upload',(req,res)=>{
+   console.log(req.files);
+   console.log("tapois");
+});
+
 module.exports = router;

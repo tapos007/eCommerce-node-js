@@ -79,13 +79,24 @@ module.exports = {
     },
     productUpdateGet: async (req, res) => {
         try {
-            var Dataslug = req.param('slug');
-            var product = await Product.findOne({'slug': Dataslug});
-            let {title, slug, content, _id} = product;
-            res.render('product/edit_page', {title, slug, _id});
+            let Dataslug = req.params.slug;
+            const [product, categories] = await Promise.all([
+                Product.findOne({'slug': Dataslug}),
+                await Category.find({})
+
+            ]);
+            let {title, slug, desc, _id,price,category,image} = product;
+            let location  = 'public/product_images/'+image;
+            let galaryImages = null;
+            fs.readFileSync(location, function(err, data) {
+                if (err) throw err; // Fail if the file can't be read.
+                galaryImages = data;
+            });
+
+            res.render('product/edit_page', {title,image,galaryImages, slug, desc, _id,price,category,categories});
         } catch (err) {
             res.flash('error', err.message);
-            res.redirect('/admin/product');
+            res.redirect('/admin/products');
         }
     },
     productUpdatePost: async (req, res) => {
