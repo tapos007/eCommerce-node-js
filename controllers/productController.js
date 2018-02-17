@@ -86,12 +86,14 @@ module.exports = {
 
             ]);
             let {title, slug, desc, _id,price,category,image} = product;
-            let location  = 'public/product_images/'+image;
-            let galaryImages = null;
-            fs.readFileSync(location, function(err, data) {
-                if (err) throw err; // Fail if the file can't be read.
-                galaryImages = data;
+            let location  = '/product_images/';
+            let galaryImages = [];
+
+            product.similar_image.forEach((value)=>{
+                var nowLoc = location+value.url;
+                galaryImages.push({url:nowLoc,name:value.url});
             });
+
 
             res.render('product/edit_page', {title,image,galaryImages, slug, desc, _id,price,category,categories});
         } catch (err) {
@@ -148,6 +150,41 @@ module.exports = {
             res.json({success: false, message: "product delete not success"});
         }
     },
+
+
+    ProductFileUpload: async (req, res) => {
+        try {
+
+            var id = req.body.product_id;
+            var product = await Product.findById(id);
+            if (product) {
+                let sampleFile = req.files.file;
+                var fileName = uniqid() + ".png";
+                sampleFile.mv('public/product_images/'+fileName, function(err) {
+                    if (err)
+                        return res.status(500).send(err);
+
+                     product.similar_image.push({url:fileName,thumb:fileName});
+                     product.save();
+                    res.json({success: true, message: "product image upload success"});
+                });
+            }
+        } catch (err) {
+            res.json({success: false, message: "product delete not success"});
+        }
+    },
+
+    ProductFileDelete: async (req, res) => {
+        try {
+
+            var id = req.body.product_id;
+            var fileName = req.body.filename;
+            var info = await Product.update({ _id: id }, { $pull: { similar_image: { url: fileName  } } });
+            res.json({success: false, message: info});
+        } catch (err) {
+            res.json({success: false, message: err.message});
+        }
+    }
 
 
 };

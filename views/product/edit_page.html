@@ -11,7 +11,8 @@
     <div class="form-group">
         <label for="title">Title</label>
         <input type="hidden" name="pimage" value="{{image}}">
-        <input type="hidden" name="slug" value="{{slug}}">
+        <input type="hidden" id="slug" name="slug" value="{{slug}}">
+        <input type="hidden" id="id" name="id" value="{{_id}}">
         <input type="text" class="form-control" value="{{title}}" name="title" placeholder="Title">
     </div>
     <div class="form-group">
@@ -78,7 +79,8 @@
     <div class="col-lg-5">
         <!-- The global file processing state -->
         <span class="fileupload-process">
-          <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0"
+               aria-valuemax="100" aria-valuenow="0">
             <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
           </div>
         </span>
@@ -136,27 +138,48 @@
 
     var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
         url: "/admin/products/file-upload", // Set the url
-        acceptedFiles:'image/*',
+        acceptedFiles: 'image/*',
         thumbnailWidth: 80,
         thumbnailHeight: 80,
         parallelUploads: 20,
         previewTemplate: previewTemplate,
         autoQueue: false, // Make sure the files aren't queued until manually added
         previewsContainer: "#previews", // Define the container to display the previews
-        clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+        init: function () {
+            var files = {{galaryImages | dump | safe}};
+            for (var i = 0; i < files.length; i++) {
+                var mockFile = { name: files[i].name };
+                this.emit("addedfile", mockFile);
+                this.emit("thumbnail", mockFile, files[i].url);
+                this.createThumbnailFromUrl(mockFile, files[i].url);
+
+                this.emit("complete", mockFile);
+               // var existingFileCount = 1; // The number of files already uploaded
+              //  this.options.maxFiles = this.options.maxFiles - existingFileCount;
+
+            }
+
+        }
     });
+
 
     myDropzone.on("addedfile", function (file) {
         // Hookup the start button
         file.previewElement.querySelector(".start").onclick = function () {
             myDropzone.enqueueFile(file);
         };
+
     });
+
 
     myDropzone.on("removedfile", function (file) {
         // Hookup the start button
-        console.log(file);
-        alert("remove file called");
+        $.ajax({
+            url: '/admin/products/delete-file',
+            type: "POST",
+            data: { 'filename': file.name,"product_id": $("#id").val()}
+        });
     });
 
     // Update the total progress bar
@@ -164,7 +187,8 @@
         document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
     });
 
-    myDropzone.on("sending", function (file) {
+    myDropzone.on("sending", function (file, xhr, formData) {
+        formData.append("product_id", $("#id").val());
         // Show the total progress bar when upload starts
         document.querySelector("#total-progress").style.opacity = "1";
         // And disable the start button
@@ -206,29 +230,30 @@
     html, body {
         height: 100%;
     }
+
     #actions {
         margin: 2em 0;
     }
-
 
     /* Mimic table appearance */
     div.table {
         display: table;
     }
+
     div.table .file-row {
         display: table-row;
     }
+
     div.table .file-row > div {
         display: table-cell;
         vertical-align: top;
         border-top: 1px solid #ddd;
         padding: 8px;
     }
+
     div.table .file-row:nth-child(odd) {
         background: #f9f9f9;
     }
-
-
 
     /* The total progress gets shown by event listeners */
     #total-progress {
@@ -253,6 +278,7 @@
     #previews .file-row.dz-success .cancel {
         display: none;
     }
+
     #previews .file-row.dz-success .delete {
         display: block;
     }

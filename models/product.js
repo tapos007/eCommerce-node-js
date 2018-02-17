@@ -1,6 +1,18 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var ProductImageSchema = new Schema({
+    url: {
+        type: String,
+        required: true
+    },
+    thumb: {
+        type: String,
+        required: true
+    },
+
+});
+
 var ProductSchema = new Schema({
     title: {
         type: String,
@@ -24,6 +36,10 @@ var ProductSchema = new Schema({
     },
     image: {
         type: String
+    },
+    similar_image: {
+        type: [ProductImageSchema],
+        'default': []
     }
 });
 var Product = mongoose.model('Product', ProductSchema);
