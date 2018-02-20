@@ -43,6 +43,7 @@ module.exports = {
                     var page = new Page({ title,slug,content,sorting:100 });
                     page.save(function (err) {
                             if (err) return console.log(err);
+
                             res.flash('success','Page Added.');
                             res.redirect('/admin/pages');
                         }
@@ -90,6 +91,7 @@ module.exports = {
                     nowPage.slug = slug;
                     nowPage.content = content;
                     await  nowPage.save();
+                    await reorderMenu(req);
                     res.redirect('/admin/pages');
                 }
 
@@ -108,6 +110,7 @@ module.exports = {
             var page = await Page.findOne({slug});
             if(page){
                 await page.remove();
+                await reorderMenu(req);
                 res.json({success:true,message:"page delete successfully"});
             }
         }catch(err){
@@ -117,17 +120,59 @@ module.exports = {
 
     pageReorderPost: async (req, res) => {
         var ids = req.body['id[]'];
-        var count = 0;
-        for (let id of ids) {
-            try {
-                count++;
-                const page = await Page.findById(id);
-                console.log(page);
-                page.sorting = count;
-                await page.save();
-            } catch (err) {
-                console.log(err);
-            }
+        await sortPages(ids);
+        await reorderMenu(req);
+
+
+    },
+
+    pageSinglePost: async (req, res) => {
+
+        try{
+            var nowslug = req.params.slug;
+            var page = await Page.findOne({'slug':nowslug});
+            let {title,slug,content,_id} = page;
+            res.render('index',{title,slug,content,_id});
+        }catch(err){
+            res.redirect('/');
+        }
+    },
+
+    pageSinglePostHome: async (req, res) => {
+        try{
+            var nowslug = 'home';
+            var page = await Page.findOne({'slug':nowslug});
+            let {title,slug,content,_id} = page;
+            res.render('index',{title,slug,content,_id});
+        }catch(err){
+            res.redirect('/');
+        }
+    },
+};
+
+async  function sortPages(ids){
+    var count = 0;
+    for (let id of ids) {
+        try {
+            count++;
+            const page = await Page.findById(id);
+            page.sorting = count;
+            await page.save();
+        } catch (err) {
+            console.log(err);
         }
     }
-};
+
+}
+
+
+async  function reorderMenu(req){
+    Page.find({}).sort({'sorting': 1}).exec((err, pages) => {
+        if(err){
+            console.log(err);
+        }else{
+            req.app.locals.pages = pages;
+        }
+    });
+
+}

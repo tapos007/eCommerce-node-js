@@ -2,7 +2,10 @@
 
 {% block main_block %}
 
-<h1>Hello there</h1>
+<h1>{{title}}</h1>
 
+<div>
+    {{content | safe}}
+</div>
 
 {% endblock %}
