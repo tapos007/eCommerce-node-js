@@ -10,6 +10,7 @@ router.get('/', ProductController.getAllProduct);
 
 // insert a new product get request
 router.get('/category/:slug', ProductController.categoryWiseProduct);
+router.get('/:slug', ProductController.ProductDetails);
 
 
 // insert a new product post request

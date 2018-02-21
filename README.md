@@ -1,7 +1,7 @@
 # NodeJS Ecommerce Development 
 ## developed by tapos ghosh
 
-###Home Page  
+  
 
 ![alt text](https://github.com/tapos007/eCommerce-node-js/blob/master/public/images/1.PNG "Home Page")
 
