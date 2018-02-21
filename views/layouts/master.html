@@ -52,11 +52,27 @@
 <div class="container">
 
     {% include "messages.html" %}
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Categories</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="/products">All Products</a></li>
+                    {% for category in categories %}
+                        <li class="list-group-item"><a href="/products/{{category.slug}}">{{category.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-9">
+                {% block main_block %}{% endblock %}
+            </div>
+        </div>
 
-    {% block main_block %}{% endblock %}
 </div><!-- /.container -->
 
+<br><br><br>
 
+<hr>
+<p class="text-center">&COPY; CmsShoppingCart</p>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 {% block js_block %}{% endblock %}

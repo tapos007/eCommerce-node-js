@@ -31,12 +31,21 @@ app.locals.errors = null;
 
 // Get page model
 var Page = require('./models/page');
+var Category = require('./models/category');
 
 Page.find({}).sort({'sorting': 1}).exec((err, pages) => {
     if(err){
       console.log(err);
     }else{
       app.locals.pages = pages;
+    }
+});
+// get all category
+Category.find((err, categories) => {
+    if(err){
+        console.log(err);
+    }else{
+        app.locals.categories = categories;
     }
 });
 

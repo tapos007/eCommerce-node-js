@@ -40,6 +40,7 @@ module.exports = {
                     var category = new Category({ title,slug });
                     category.save(function (err) {
                             if (err) return console.log(err);
+
                             res.flash('success','Category Added.');
                             res.redirect('/admin/category');
                         }
@@ -86,6 +87,7 @@ module.exports = {
                     nowCategory.title = title;
                     nowCategory.slug = slug;
                     await  nowCategory.save();
+                    await RearrangeMenu(req);
                     res.flash('success','Category update successfully');
                     res.redirect('/admin/category');
                 }
@@ -106,6 +108,7 @@ module.exports = {
             var category = await Category.findOne({slug});
             if(category){
                 await category.remove();
+                await RearrangeMenu(req);
                 res.json({success:true,message:"category delete successfully"});
             }
         }catch(err){
@@ -115,3 +118,15 @@ module.exports = {
 
 
 };
+
+async  function RearrangeMenu(req){
+
+    Category.find((err, categories) => {
+        if(err){
+            console.log(err);
+        }else{
+            req.app.locals.categories = categories;
+        }
+    });
+
+}
