@@ -58,7 +58,7 @@
                 <ul class="list-group">
                     <li class="list-group-item"><a href="/products">All Products</a></li>
                     {% for category in categories %}
-                        <li class="list-group-item"><a href="/products/{{category.slug}}">{{category.title}}</a></li>
+                        <li class="list-group-item"><a href="/products/category/{{category.slug}}">{{category.title}}</a></li>
                     {% endfor %}
                 </ul>
             </div>

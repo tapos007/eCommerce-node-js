@@ -1,0 +1,27 @@
+{% extends "layouts/master.html" %}
+
+{% block main_block %}
+
+<h1>{{title}}</h1>
+
+<div class="row">
+
+    {% for aProduct in products %}
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img style="height: 275px;" class="img-thumbnail" src="/product_images/{{aProduct.image}}" alt="...">
+                <div class="caption">
+                    <h3>{{aProduct.title}}</h3>
+                    <p>{{aProduct.desc | safe}}</p>
+                    <p>Price: ${{aProduct.price}}</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Details</a></p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <li>This would display if the 'item' collection were empty</li>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
