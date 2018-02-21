@@ -83,17 +83,26 @@ db.once('open', function() {
   console.log("its open now");
 });
 
+// get cart data
+
+app.get('*',(req,res,next)=>{
+   res.locals.cart = req.session.cart;
+   next();
+});
+
 // set routes 
 var pages = require('./routes/pages');
 var adminPages = require('./routes/admin_pages');
 var adminCategories = require('./routes/admin_categories');
 var adminProduct = require('./routes/admin_products');
 var ProductRoute = require('./routes/products_route');
+var CartRoute = require('./routes/cartRoute');
 
 app.use('/admin/pages',adminPages);
 app.use('/admin/category',adminCategories);
 app.use('/admin/products',adminProduct);
 app.use('/products',ProductRoute);
+app.use('/cart',CartRoute);
 app.use('/',pages);
 
 

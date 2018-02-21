@@ -42,8 +42,17 @@
                     {% endif %}
 
                 {% endfor %}
+            </ul>
 
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/cart/checkout">My Cart (
+                    {% if (cart !== 'undefined') %}
+                        {{cart | length}}
+                     {% else %}
+                        0
+                    {% endif %}
 
+                )</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
