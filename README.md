@@ -11,6 +11,12 @@
 ![alt text](https://github.com/tapos007/eCommerce-node-js/blob/master/public/images/2.PNG "Product list ")
 
 
+### Display Single Product View  
+
+![alt text](https://github.com/tapos007/eCommerce-node-js/blob/master/public/images/6.PNG "Product list ")
+
+
+
 ### Display Admin Product List with add Product option  
 
 ![alt text](https://github.com/tapos007/eCommerce-node-js/blob/master/public/images/3.PNG "Admin Display all product")

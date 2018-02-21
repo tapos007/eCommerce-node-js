@@ -23,9 +23,9 @@
                 <ul class="preview-thumbnail nav nav-tabs">
                     {% for item in product.similar_image %}
                         {% if loop.index==1 %}
-                            <li class="active"><a data-target="#pic-{{item._id}}" data-toggle="tab"><img style="width: 200px;height: 126px;" src="/product_images/{{item.url}}"/></a></li>
+                            <li class="active"><a data-target="#pic-{{item._id}}" data-toggle="tab"><img style="width: 200px;height: 84px;" src="/product_images/{{item.url}}"/></a></li>
                         {% else %}
-                            <li><a data-target="#pic-{{item._id}}" data-toggle="tab"><img style="width: 200px;height: 126px;" src="/product_images/{{item.url}}"/></a></li>
+                            <li><a data-target="#pic-{{item._id}}" data-toggle="tab"><img style="width: 200px;height: 84px;" src="/product_images/{{item.url}}"/></a></li>
                         {% endif %}
                     {% endfor %}
 
