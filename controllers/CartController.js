@@ -4,8 +4,8 @@ const Product = require('../models/product');
 require('express-async-errors');
 
 module.exports = {
-    getAllCartProduct: async (req, res) => {
-        res.send("enter this area");
+    ShowCartPage: async (req, res) => {
+        res.render("cart/cartindex");
     },
 
     AddPRoductCart: async (req, res) => {
@@ -33,6 +33,38 @@ module.exports = {
         }
 
     },
+
+    CartPageProductUpdate: async (req,res)=>{
+        var id = req.body.id;
+        var qty = req.body.qty;
+        var foundIndex = req.session.cart.findIndex(x => x._id == id);
+        if(foundIndex>=0){
+            req.session.cart[foundIndex]['qty'] = qty;
+        }
+        var total = 0;
+        req.session.cart.forEach(x=>{
+            total += (x.price * x.qty);
+        });
+        res.send({success:true,msg:"update sucessfully",total});
+
+
+    },
+
+    CartPageProductDelete: async (req,res)=>{
+        var id = req.body.id;
+        var foundIndex = req.session.cart.findIndex(x => x._id == id);
+        console.log(foundIndex);
+        if(foundIndex>=0){
+            req.session.cart.splice(foundIndex, 1);
+        }
+        var total = 0;
+        req.session.cart.forEach(x=>{
+            total += (x.price * x.qty);
+        });
+        res.send({success:true,msg:"delete sucessfully",total});
+
+
+    }
 
 
 };

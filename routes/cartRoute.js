@@ -6,9 +6,12 @@ const {matchedData, sanitize} = require('express-validator/filter');
 
 
 // define the home page route
-router.get('/', CartController.getAllCartProduct);
+router.get('/', CartController.ShowCartPage);
 
 
 router.get('/add-product/:slug', CartController.AddPRoductCart);
+
+router.post('/update-cart',CartController.CartPageProductUpdate);
+router.post('/delete-cart',CartController.CartPageProductDelete);
 
 module.exports = router;

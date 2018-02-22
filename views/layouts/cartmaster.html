@@ -62,16 +62,8 @@
 
     {% include "messages.html" %}
         <div class="row">
-            <div class="col-md-3">
-                <h3>Categories</h3>
-                <ul class="list-group">
-                    <li class="list-group-item"><a href="/products">All Products</a></li>
-                    {% for category in categories %}
-                        <li class="list-group-item"><a href="/products/category/{{category.slug}}">{{category.title}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="col-md-9">
+
+            <div class="col-md-12">
                 {% block main_block %}{% endblock %}
             </div>
         </div>
